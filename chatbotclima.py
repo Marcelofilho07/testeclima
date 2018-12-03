@@ -37,23 +37,32 @@ def webhook():
                         latitude = location['lat']
                         longitude = location['long']
             else:
-				url = 'http://api.openweathermap.org/data/2.5/weather?' \
-				'lat={}&lon={}&appid={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
-				r = requests.get(url)
-				description = r.json()['weather'][0]['description'].title()
-				icon = r.json()['weather'][0]['icon']
-				weather = r.json()['main']
-				text_res = '{}\n' \
-							'Temperatura: {}\n' \
-							'Pressão: {}\n' \
-							'Humidade: {}\n' \
-							'Máxima: {}\n' \
-							'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
-				payload = {'recipient': {'id': sender}, 'message': {'text': text_res}}
-				r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+                url = 'http://api.openweathermap.org/data/2.5/weather?' + 'lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
+
+                r = requests.get(url)
+
+                description = r.json()['weather'][0]['description'].title()
+
+                icon = r.json()['weather'][0]['icon']
+
+                weather = r.json()['main']
+
+                text_res = '{}\n' \
+                            'Temperatura: {}\n' \
+                            'Pressão: {}\n' \
+                            'Humidade: {}\n' \
+                            'Máxima: {}\n' \
+                            'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
+
+                payload = location_quick_reply(sender)
+
+                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+
+        except Exception as e:
+            print(traceback.format_exc())
 
     elif request.method == 'GET':
-        if request.args.get('hub.verify_token') == os.environ.get('FB_VERIFY_TOKEN'):
+        if request.args.get('httpsub.verify_token') == os.environ.get('FB_VERIFY_TOKEN'):
             return request.args.get('hub.challenge')
         return "Wrong Verify Token"
     return "Nothing"
