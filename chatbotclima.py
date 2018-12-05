@@ -24,6 +24,19 @@ def location_quick_reply(sender):
         }
     }
 
+def send_attachment(sender, type, payload):
+    return {
+        "recipient": {
+            "id": sender
+        },
+        "message": {
+            "attachment": {
+                "type": type,
+                "payload": payload,
+            }
+        }
+    }
+
 def send_weather_info(sender, **kwargs):
     latitude = kwargs.pop('latitude', None)
     longitude = kwargs.pop('longitude', None)
