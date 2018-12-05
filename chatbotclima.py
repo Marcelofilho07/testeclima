@@ -80,7 +80,7 @@ def send_weather_info(sender, **kwargs):
     send_message(payload)
     return None
 
-def send_message(payload)
+def send_message(payload):
     requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
 
 
