@@ -106,24 +106,30 @@ def webhook():
             print("mensagem recebida")
             data = json.loads(request.data.decode())
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
+            print("flag 01")
             print(data)
+            print("flag 02")
+            print(data['entry'][0]['messaging'][0])
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
-
+                print(message)
+            else:
+                message = 'null'
             #location_quick_reply(857422447981948)
-            print("flag 1")
+            print("flag 03")
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
                         location = message['attachments'][0]['payload']['coordinates']
                         latitude = location['lat']
                         longitude = location['long']
-                        print("flag 3")
+                        print("flag 04")
+                        print(message)
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
             else:
                 payload = location_quick_reply(sender)
                 print(payload)
-                print("flag 4")
+                print("flag 05")
                 send_message(payload) 
 
         except Exception as e:
