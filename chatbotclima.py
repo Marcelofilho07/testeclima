@@ -35,6 +35,11 @@ def send_weather_info(sender, **kwargs):
           '{}&appid={}&units={}&lang={}'.format(query,api_key,'metric','pt')
 
     r = requests.get(url)
+    response = r.json()
+    
+    if 'cod' in response:
+        if response['cod'] != 200:
+            return 'error'
 
     #Alocando informações do clima em variáveis e enviando para o usuário
     description = r.json()['weather'][0]['description'].title()
@@ -49,7 +54,7 @@ def send_weather_info(sender, **kwargs):
            'Velocidade do vento: {} km/h\n'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
 
     payload = {'recipient': {'id': sender}, 'message': {'text': weather_data}}
-    
+
     print(payload)
     send_message(payload)
 
@@ -82,14 +87,17 @@ def webhook():
             elif message != 'null':
 
                 text = '{}'.format(message['text'])
-                flag = 0
+
                 for city in CITIES:
                     if text.lower() in city and flag == 0:
-                        send_weather_info(sender, city_name=text)
-                        flag = 1
+                        _return = send_weather_info(sender, city_name=text)
 
-                payload = location_quick_reply(sender)
-                send_message(payload) 
+                        if _return == 'error':
+                            message = send_text(sender, get_message('error'))
+                            send_message(message)
+
+                            payload = location_quick_reply(sender)
+                            send_message(payload) 
                 
 
         except Exception as e:
