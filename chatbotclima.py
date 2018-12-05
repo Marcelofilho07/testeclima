@@ -113,6 +113,8 @@ def webhook():
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
                 print(message)
+            else:
+                message = 'null'
             #location_quick_reply(857422447981948)
             print("flag 03")
             if 'attachments' in message:
@@ -124,7 +126,7 @@ def webhook():
                         print("flag 04")
                         print(message)
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
-            else:
+            elif message != 'null':
                 payload = location_quick_reply(sender)
                 print(payload)
                 print("flag 05")
