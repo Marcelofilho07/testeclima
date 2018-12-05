@@ -22,10 +22,11 @@ def location_quick_reply(sender):
         }
     }
 
-@app.route('/', methods=['GET', 'POST'])
-def webhook():
+@app.route('/webhook', methods=['GET', 'POST'])
+def webhook():  
     if request.method == 'POST':
         try:
+            location_quick_reply(sender)
             data = json.loads(request.data.decode())
             print(data)
             message = data['entry'][0]['messaging'][0]['message']
