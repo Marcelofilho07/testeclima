@@ -24,15 +24,78 @@ def location_quick_reply(sender):
         }
     }
 
+def send_weather_info(sender, **kwargs):
+    latitude = kwarg.pop('latitude', None)
+    longitude = kwarg.pop('longitude', None)
+    city_name = kwarg.pop('city_name', None)
+
+    if latitude and longitude:
+        query = 'lat={}&lon={}'.format(latitude, longitude)
+    elif
+        query = 'q={},br'.forma(city_name)
+
+    url = 'http://api.openweathermap.org/data/2.5/weather?' \
+          '{}&appid={}&units={}&lang={}'.format(query,api_key,'metric','pt')
+
+    r = requests.get(url)
+
+    response = r.json()
+
+    name = response['name']
+    weather = response['main']
+    wind = response['wind']
+
+    elements = [{
+        'title': name,
+        'subtitle': 'Temperatura: {} graus'.format(str(weather['temp']).replace('.',',')),
+    }]
+
+    for info in response['weather']:
+        description = info['description'].capitalize()
+        icon = info['icon']
+
+        weather_data = 'Umidade: {}%\n' \
+                       'Pressão: {}\n' \
+                       'Velocidade do vento: {}'.format(weather['humidity'],
+                                                          weather['pressure'],
+                                                          wind['speed'])
+
+        if 'visibility' in response:
+            weather_data = '{}\n Visibilidade: {}'.format(weather_data, response['visibility'])
+
+        elements.append({
+            'title': description,
+            'subtitle': weather_data,
+            'image_url': 'http://openweathermap.org/img/w/{}.png'.format(icon)
+        })
+
+    payload = send_attachment(sender,
+                              'template',
+                              {
+                                  "template_type": "list",
+                                  "top_element_style": "large",
+                                  "elements": elements,
+                                  ]
+                              })
+
+    send_message(payload)
+    return None
+
+def send_message(payload)
+    requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def webhook():  
     if request.method == 'POST':
         try:
             print("mensagem recebida")
             data = json.loads(request.data.decode())
-            print(data)
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
-            message = data['entry'][0]['messaging'][0]['message']
+            print(data)
+            if 'message' in data['entry'][0]['messaging'][0]:
+                message = data['entry'][0]['messaging'][0]['message']
+
             #location_quick_reply(857422447981948)
             print("flag 1")
             if 'attachments' in message:
@@ -42,29 +105,10 @@ def webhook():
                         latitude = location['lat']
                         longitude = location['long']
                         print("flag 3")
-                        url = 'http://api.openweathermap.org/data/2.5/weather?''lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
-
-                        r = requests.get(url)
-
-                        description = r.json()['weather'][0]['description'].title()
-
-                        icon = r.json()['weather'][0]['icon']
-
-                        weather = r.json()['main']
-
-                        text_res = '{}\n' \
-                                    'Temperatura: {}\n' \
-                                    'Pressão: {}\n' \
-                                    'Humidade: {}\n' \
-                                    'Máxima: {}\n' \
-                                    'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
-                        payload = {'recipient': {'id': sender}, 'message': {'text': text_res}}
-                        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+                        send_weather_info(sender, latitude=latitude, longitude=longitude)
             else:
                 payload = location_quick_reply(sender)
-                print("foi no payload")
-
-                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+                send_message(payload)
 
         except Exception as e:
             print(traceback.format_exc())
