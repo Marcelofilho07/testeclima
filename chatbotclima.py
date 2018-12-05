@@ -75,6 +75,7 @@ def webhook():
             else:
                 message = 'null'
 
+            #Caso receba as coordenadas
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
@@ -82,7 +83,8 @@ def webhook():
                         latitude = location['lat']
                         longitude = location['long']
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
-
+                        
+            #Caso receba uma mensagem de texto    
             elif message != 'null':
 
                 text = '{}'.format(message['text'])
