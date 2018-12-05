@@ -31,7 +31,7 @@ def send_weather_info(sender, **kwargs):
 
     if latitude and longitude:
         query = 'lat={}&lon={}'.format(latitude, longitude)
-    elif
+    elif:
         query = 'q={},br'.forma(city_name)
 
     url = 'http://api.openweathermap.org/data/2.5/weather?' \
