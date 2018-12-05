@@ -65,12 +65,12 @@ def send_weather_info(sender, **kwargs):
     description = r.json()['weather'][0]['description'].title()
     weather = r.json()['main']
     weather_data = '{}\n' \
-           'Temperatura: {}' + '°C\n' \
-           'Pressão: {}' + 'hPa\n' \
-           'Humidade: {}' + '%\n' \
-           'Máxima: {}' + '°C\n' \
-           'Mínima: {}' + '°C\n' \
-           'Velocidade do vento: {}' + ' km/h\n''.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
+           'Temperatura: {} °C\n' \
+           'Pressão: {} hPa\n' \
+           'Humidade: {} %\n' \
+           'Máxima: {} °C\n' \
+           'Mínima: {} °C\n' \
+           'Velocidade do vento: {} km/h\n'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
     if 'visibility' in weather:
             weather_data = 'Visibilidade: {}'.format(response['visibility'])
     payload = {'recipient': {'id': sender}, 'message': {'text': weather_data}}
@@ -120,12 +120,8 @@ def send_message(payload):
 def webhook():  
     if request.method == 'POST':
         try:
-            print("mensagem recebida")
             data = json.loads(request.data.decode())
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
-            print("flag 01")
-            print(data)
-            print("flag 02")
             print(data['entry'][0]['messaging'][0])
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
@@ -133,20 +129,15 @@ def webhook():
             else:
                 message = 'null'
             #location_quick_reply(857422447981948)
-            print("flag 03")
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
                         location = message['attachments'][0]['payload']['coordinates']
                         latitude = location['lat']
                         longitude = location['long']
-                        print("flag 04")
-                        print(message)
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
             elif message != 'null':
                 payload = location_quick_reply(sender)
-                print(payload)
-                print("flag 05")
                 send_message(payload) 
 
         except Exception as e:
@@ -155,7 +146,7 @@ def webhook():
     elif request.method == 'GET':
         if request.args.get('hub.verify_token') == os.environ.get('FB_VERIFY_TOKEN'):
             return request.args.get('hub.challenge')
-        return "eu amo a lenise <3"
+        return "Wrong verify_token"
     return "Nothing"
 
 
