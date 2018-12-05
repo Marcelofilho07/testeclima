@@ -41,29 +41,29 @@ def webhook():
                         location = message['attachments'][0]['payload']['coordinates']
                         latitude = location['lat']
                         longitude = location['long']
-            else:
-                url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=d798cefd854de912b3e650781f6192ac'
+                        print("flag 3")
+                        url = 'http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=d798cefd854de912b3e650781f6192ac'
                 #url = 'http://api.openweathermap.org/data/2.5/weather?' + 'lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
 
-                r = requests.get(url)
+                        r = requests.get(url)
 
-                description = r.json()['weather'][0]['description'].title()
+                        description = r.json()['weather'][0]['description'].title()
 
-                icon = r.json()['weather'][0]['icon']
+                        icon = r.json()['weather'][0]['icon']
 
-                weather = r.json()['main']
+                        weather = r.json()['main']
 
-                text_res = '{}\n' \
-                            'Temperatura: {}\n' \
-                            'Pressão: {}\n' \
-                            'Humidade: {}\n' \
-                            'Máxima: {}\n' \
-                            'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
+                        text_res = '{}\n' \
+                                    'Temperatura: {}\n' \
+                                    'Pressão: {}\n' \
+                                    'Humidade: {}\n' \
+                                    'Máxima: {}\n' \
+                                    'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
+            else:
                 payload = location_quick_reply(sender)
                 print("foi no payload")
 
-                #r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json="payload")
+                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
 
         except Exception as e:
             print(traceback.format_exc())
