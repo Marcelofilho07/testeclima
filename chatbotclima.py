@@ -141,7 +141,7 @@ def webhook():
                 send_message(payload) 
 
             else:
-                text = message['text']
+                text = '{}'.format(message['text'])
 
                 for city in CITIES:
                     if text.lower() in city:
