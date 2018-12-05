@@ -62,7 +62,17 @@ def send_weather_info(sender, **kwargs):
 
     r = requests.get(url)
 
-    response = r.json()
+    description = r.json()['weather'][0]['description'].title()
+    icon = r.json()['weather'][0]['icon']
+    weather = r.json()['main']
+    text_res = '{}\n' \
+           'Temperatura: {}\n' \
+           'Pressão: {}\n' \
+           'Humidade: {}\n' \
+           'Máxima: {}\n' \
+           'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
+    payload = {'recipient': {'id': sender}, 'message': {'text': text_res}}
+    '''response = r.json()
 
     print (response)
 
@@ -95,7 +105,7 @@ def send_weather_info(sender, **kwargs):
         })
 
     #payload = send_attachment(sender,'template', {"template_type": "list", "top_element_style": "large", "elements": elements,})
-    payload = send_attachment(sender, elements)
+    payload = send_attachment(sender, elements)'''
     print(payload)
     send_message(payload)
     return None
