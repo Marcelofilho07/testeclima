@@ -31,7 +31,7 @@ def webhook():
             print(data)
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
             message = data['entry'][0]['messaging'][0]['message']
-            location_quick_reply(sender)
+            location_quick_reply(857422447981948)
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
