@@ -63,15 +63,17 @@ def send_weather_info(sender, **kwargs):
     r = requests.get(url)
 
     description = r.json()['weather'][0]['description'].title()
-    icon = r.json()['weather'][0]['icon']
     weather = r.json()['main']
-    text_res = '{}\n' \
-           'Temperatura: {}\n' \
-           'Pressão: {}\n' \
-           'Humidade: {}\n' \
-           'Máxima: {}\n' \
-           'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
-    payload = {'recipient': {'id': sender}, 'message': {'text': text_res}}
+    weather_data = '{}\n' \
+           'Temperatura: {}' + '°C\n' \
+           'Pressão: {}' + 'hPa\n' \
+           'Humidade: {}' + '%\n' \
+           'Máxima: {}' + '°C\n' \
+           'Mínima: {}' + '°C\n' \
+           'Velocidade do vento: {}' + ' km/h\n''.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
+    if 'visibility' in weather:
+            weather_data = 'Visibilidade: {}'.format(response['visibility'])
+    payload = {'recipient': {'id': sender}, 'message': {'text': weather_data}}
     '''response = r.json()
 
     print (response)
