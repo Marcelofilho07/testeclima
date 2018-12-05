@@ -122,6 +122,8 @@ def webhook():
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
             else:
                 payload = location_quick_reply(sender)
+                print(payload)
+                print("flag 4")
                 send_message(payload) 
 
         except Exception as e:
