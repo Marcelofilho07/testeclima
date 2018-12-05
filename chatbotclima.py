@@ -25,9 +25,9 @@ def location_quick_reply(sender):
     }
 
 def send_weather_info(sender, **kwargs):
-    latitude = kwarg.pop('latitude', None)
-    longitude = kwarg.pop('longitude', None)
-    city_name = kwarg.pop('city_name', None)
+    latitude = kwargs.pop('latitude', None)
+    longitude = kwargs.pop('longitude', None)
+    city_name = kwargs.pop('city_name', None)
 
     if latitude and longitude:
         query = 'lat={}&lon={}'.format(latitude, longitude)
@@ -91,6 +91,7 @@ def webhook():
             print("mensagem recebida")
             data = json.loads(request.data.decode())
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
+            message = data['entry'][0]['messaging'][0]
             print(data)
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
