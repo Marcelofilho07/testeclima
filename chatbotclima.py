@@ -91,7 +91,6 @@ def webhook():
             print("mensagem recebida")
             data = json.loads(request.data.decode())
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
-            message = data['entry'][0]['messaging'][0]
             print(data)
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
