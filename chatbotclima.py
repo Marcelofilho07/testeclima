@@ -59,6 +59,8 @@ def webhook():
                                     'Humidade: {}\n' \
                                     'Máxima: {}\n' \
                                     'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
+                        payload = {'recipient': {'id': sender}, 'message': {'text': text_res}}
+                        r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
             else:
                 payload = location_quick_reply(sender)
                 print("foi no payload")
