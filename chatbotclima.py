@@ -113,8 +113,6 @@ def webhook():
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
                 print(message)
-            else:
-                message = 'null'
             #location_quick_reply(857422447981948)
             print("flag 03")
             if 'attachments' in message:
