@@ -142,7 +142,7 @@ def webhook():
                 text = '{}'.format(message['text'])
                 flag = 0
                 for city in CITIES:
-                    if text.lower() in city && flag == 0:
+                    if text.lower() in city and flag == 0:
                         send_weather_info(sender, city_name=text)
                         flag = 1
                 if flag == 0:
