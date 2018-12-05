@@ -42,7 +42,7 @@ def webhook():
                         latitude = location['lat']
                         longitude = location['long']
                         print("flag 3")
-                        url = 'http://api.openweathermap.org/data/2.5/weather?' + 'lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
+                        url = 'http://api.openweathermap.org/data/2.5/weather?''lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
 
                         r = requests.get(url)
 
