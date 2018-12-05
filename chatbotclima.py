@@ -33,7 +33,8 @@ def webhook():
             print(data)
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
             message = data['entry'][0]['messaging'][0]['message']
-            location_quick_reply(857422447981948)
+            #location_quick_reply(857422447981948)
+            print("flag 1")
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
@@ -58,8 +59,8 @@ def webhook():
                             'Humidade: {}\n' \
                             'Máxima: {}\n' \
                             'Mínima: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
-
                 payload = location_quick_reply(sender)
+                print("foi no payload")
 
                 r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
 
