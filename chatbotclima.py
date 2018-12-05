@@ -32,7 +32,7 @@ def send_weather_info(sender, **kwargs):
     if latitude and longitude:
         query = 'lat={}&lon={}'.format(latitude, longitude)
     elif city_name:
-        query = 'q={},br'.forma(city_name)
+        query = 'q={},br'.format(city_name)
 
     url = 'http://api.openweathermap.org/data/2.5/weather?' \
           '{}&appid={}&units={}&lang={}'.format(query,api_key,'metric','pt')
@@ -40,6 +40,8 @@ def send_weather_info(sender, **kwargs):
     r = requests.get(url)
 
     response = r.json()
+
+    print (response)
 
     name = response['name']
     weather = response['main']
@@ -107,7 +109,7 @@ def webhook():
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
             else:
                 payload = location_quick_reply(sender)
-                send_message(payload)
+                send_message(payload) 
 
         except Exception as e:
             print(traceback.format_exc())
