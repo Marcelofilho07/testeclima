@@ -37,7 +37,7 @@ def location_quick_reply(sender):
         }
     }'''
 
-def send_attachment(sender, payload);
+def send_attachment(sender, payload):
     return {
         "recipient": {
             "id": sender
