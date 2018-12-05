@@ -26,6 +26,7 @@ def location_quick_reply(sender):
 def webhook():  
     if request.method == 'POST':
         try:
+            print("mensagem recebida")
             location_quick_reply(sender)
             data = json.loads(request.data.decode())
             print(data)
