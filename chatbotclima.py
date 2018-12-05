@@ -54,7 +54,6 @@ def send_weather_info(sender, **kwargs):
            'Velocidade do vento: {} km/h\n'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
 
     payload = {'recipient': {'id': sender}, 'message': {'text': weather_data}}
-
     print(payload)
     send_message(payload)
 
@@ -87,15 +86,14 @@ def webhook():
             elif message != 'null':
 
                 text = '{}'.format(message['text'])
-
+                flag = 0
                 for city in CITIES:
-                    if text.lower() in city:
-                        _return = send_weather_info(sender, city_name=text)
+                    if text.lower() in city and flag == 0:
+                        send_weather_info(sender, city_name=text)
+                        flag = 1
 
-                        if _return == 'error':
-
-                            payload = location_quick_reply(sender)
-                            send_message(payload) 
+                payload = location_quick_reply(sender)
+                send_message(payload) 
                 
 
         except Exception as e:
