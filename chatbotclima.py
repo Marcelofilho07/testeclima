@@ -24,7 +24,7 @@ def location_quick_reply(sender):
         }
     }
 
-def send_attachment(sender, type, payload):
+'''def send_attachment(sender, type, payload):
     return {
         "recipient": {
             "id": sender
@@ -34,6 +34,16 @@ def send_attachment(sender, type, payload):
                 "type": type,
                 "payload": payload,
             }
+        }
+    }'''
+
+def send_attachment(sender, payload);
+    return {
+        "recipient": {
+            "id": sender
+        },
+        "message": {
+            "text": payload
         }
     }
 
@@ -84,13 +94,8 @@ def send_weather_info(sender, **kwargs):
             'image_url': 'http://openweathermap.org/img/w/{}.png'.format(icon)
         })
 
-    payload = send_attachment(sender,
-                              'template',
-                              {
-                                  "template_type": "list",
-                                  "top_element_style": "large",
-                                  "elements": elements,
-                              })
+    #payload = send_attachment(sender,'template', {"template_type": "list", "top_element_style": "large", "elements": elements,})
+    payload = send_attachment(sender, elements)
     print(payload)
     send_message(payload)
     return None
