@@ -27,11 +27,11 @@ def webhook():
     if request.method == 'POST':
         try:
             print("mensagem recebida")
-            location_quick_reply(sender)
             data = json.loads(request.data.decode())
             print(data)
-            message = data['entry'][0]['messaging'][0]['message']
             sender = data['entry'][0]['messaging'][0]['sender']['id'] # Sender ID
+            message = data['entry'][0]['messaging'][0]['message']
+            location_quick_reply(sender)
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
