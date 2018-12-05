@@ -111,6 +111,7 @@ def send_weather_info(sender, **kwargs):
     #payload = send_attachment(sender,'template', {"template_type": "list", "top_element_style": "large", "elements": elements,})
     payload = send_attachment(sender, elements)'''
     send_message(payload)
+
     return None
 
 def send_message(payload):
@@ -139,10 +140,11 @@ def webhook():
             elif message != 'null':
 
                 text = '{}'.format(message['text'])
-
+                flag = 0
                 for city in CITIES:
-                    if text.lower() in city:
+                    if text.lower() in city && flag == 0:
                         send_weather_info(sender, city_name=text)
+                        flag = 1
 
                 payload = location_quick_reply(sender)
                 send_message(payload) 
