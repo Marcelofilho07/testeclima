@@ -91,7 +91,7 @@ def send_weather_info(sender, **kwargs):
                                   "top_element_style": "large",
                                   "elements": elements,
                               })
-
+    print(payload)
     send_message(payload)
     return None
 
