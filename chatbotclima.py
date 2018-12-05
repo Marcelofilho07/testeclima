@@ -64,6 +64,7 @@ def send_weather_info(sender, **kwargs):
 
     description = r.json()['weather'][0]['description'].title()
     weather = r.json()['main']
+    wind = r.json()['wind']
     weather_data = '{}\n' \
            'Temperatura: {} °C\n' \
            'Pressão: {} hPa\n' \
@@ -71,8 +72,8 @@ def send_weather_info(sender, **kwargs):
            'Máxima: {} °C\n' \
            'Mínima: {} °C\n' \
            'Velocidade do vento: {} km/h\n'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'], wind['speed'])
-    if 'visibility' in weather:
-            weather_data = 'Visibilidade: {}'.format(response['visibility'])
+    '''if 'visibility' in weather:
+            weather_data = 'Visibilidade: {}'.format(weather['visibility'])'''
     payload = {'recipient': {'id': sender}, 'message': {'text': weather_data}}
     '''response = r.json()
 
@@ -108,7 +109,6 @@ def send_weather_info(sender, **kwargs):
 
     #payload = send_attachment(sender,'template', {"template_type": "list", "top_element_style": "large", "elements": elements,})
     payload = send_attachment(sender, elements)'''
-    print(payload)
     send_message(payload)
     return None
 
@@ -125,10 +125,9 @@ def webhook():
             print(data['entry'][0]['messaging'][0])
             if 'message' in data['entry'][0]['messaging'][0]:
                 message = data['entry'][0]['messaging'][0]['message']
-                print(message)
             else:
                 message = 'null'
-            #location_quick_reply(857422447981948)
+
             if 'attachments' in message:
                 if 'payload' in message['attachments'][0]:
                     if 'coordinates' in message['attachments'][0]['payload']:
