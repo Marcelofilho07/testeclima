@@ -39,7 +39,8 @@ def webhook():
                         latitude = location['lat']
                         longitude = location['long']
             else:
-                url = 'http://api.openweathermap.org/data/2.5/weather?' + 'lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
+                url = http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=d798cefd854de912b3e650781f6192ac
+                #url = 'http://api.openweathermap.org/data/2.5/weather?' + 'lat={}&lon={}&APPID={}&units={}&lang={}'.format(latitude, longitude, api_key, 'metric', 'pt')
 
                 r = requests.get(url)
 
