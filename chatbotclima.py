@@ -93,8 +93,6 @@ def webhook():
                         _return = send_weather_info(sender, city_name=text)
 
                         if _return == 'error':
-                            message = send_text(sender, get_message('error'))
-                            send_message(message)
 
                             payload = location_quick_reply(sender)
                             send_message(payload) 
