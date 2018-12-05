@@ -75,7 +75,6 @@ def send_weather_info(sender, **kwargs):
                                   "template_type": "list",
                                   "top_element_style": "large",
                                   "elements": elements,
-                                  ]
                               })
 
     send_message(payload)
@@ -116,7 +115,7 @@ def webhook():
     elif request.method == 'GET':
         if request.args.get('hub.verify_token') == os.environ.get('FB_VERIFY_TOKEN'):
             return request.args.get('hub.challenge')
-        return "Wrong verify token"
+        return "eu amo a lenise <3"
     return "Nothing"
 
 
