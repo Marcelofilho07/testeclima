@@ -36,7 +36,7 @@ def send_weather_info(sender, **kwargs):
 
     r = requests.get(url)
     response = r.json()
-    
+
     if 'cod' in response:
         if response['cod'] != 200:
             return 'error'
@@ -89,7 +89,7 @@ def webhook():
                 text = '{}'.format(message['text'])
 
                 for city in CITIES:
-                    if text.lower() in city and flag == 0:
+                    if text.lower() in city:
                         _return = send_weather_info(sender, city_name=text)
 
                         if _return == 'error':
