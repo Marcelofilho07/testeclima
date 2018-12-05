@@ -22,7 +22,7 @@ def location_quick_reply(sender):
         }
     }
 
-@app.route('/webhook', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def webhook():  
     if request.method == 'POST':
         try:
