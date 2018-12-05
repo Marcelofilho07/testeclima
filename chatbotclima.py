@@ -137,14 +137,16 @@ def webhook():
                         longitude = location['long']
                         send_weather_info(sender, latitude=latitude, longitude=longitude)
             elif message != 'null':
-                payload = location_quick_reply(sender)
-                send_message(payload) 
-                
+
                 text = '{}'.format(message['text'])
 
                 for city in CITIES:
                     if text.lower() in city:
                         send_weather_info(sender, city_name=text)
+
+                payload = location_quick_reply(sender)
+                send_message(payload) 
+                
 
         except Exception as e:
             print(traceback.format_exc())
