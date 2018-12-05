@@ -1,7 +1,7 @@
 import os
 import json
 import traceback
-from flask import Flask, request
+from flask import Flask, requests
 
 token = os.environ.get('FB_ACCESS_TOKEN')
 api_key = os.environ.get('WEATHER_API_KEY')
