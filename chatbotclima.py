@@ -63,7 +63,7 @@ def webhook():
                 print("foi no payload")
 
                 #r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
-                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, "eu amo vc")
+                r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json="payload")
 
         except Exception as e:
             print(traceback.format_exc())
