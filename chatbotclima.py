@@ -3,6 +3,7 @@ import json
 import traceback
 import requests
 
+from cities_list import CITIES
 from flask import Flask, request
 
 token = os.environ.get('FB_ACCESS_TOKEN')
@@ -138,6 +139,13 @@ def webhook():
             elif message != 'null':
                 payload = location_quick_reply(sender)
                 send_message(payload) 
+
+            else:
+                text = message['text']
+
+                for city in CITIES:
+                    if text.lower() in city:
+                        send_weather_info(sender, city_name=text)
 
         except Exception as e:
             print(traceback.format_exc())
