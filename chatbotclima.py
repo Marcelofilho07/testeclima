@@ -145,9 +145,9 @@ def webhook():
                     if text.lower() in city && flag == 0:
                         send_weather_info(sender, city_name=text)
                         flag = 1
-
-                payload = location_quick_reply(sender)
-                send_message(payload) 
+                if flag == 0:
+                    payload = location_quick_reply(sender)
+                    send_message(payload) 
                 
 
         except Exception as e:
