@@ -139,8 +139,7 @@ def webhook():
             elif message != 'null':
                 payload = location_quick_reply(sender)
                 send_message(payload) 
-
-            else:
+                
                 text = '{}'.format(message['text'])
 
                 for city in CITIES:
